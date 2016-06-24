@@ -31,12 +31,12 @@ class postTableViewCell: UITableViewCell {
     
     @IBOutlet weak var recapLabel: UILabel!
     
-    
     @IBAction func detailTap(sender: AnyObject) {
         self.detailView.hidden = false
         
         
     }
+ 
     
     @IBOutlet weak var pictureView: UIImageView!
     

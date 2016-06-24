@@ -13,17 +13,21 @@ class yourPostsViewController: UIViewController, UITableViewDataSource, UITableV
     var isMoreDataLoading = false
     var loadingMoreView:InfiniteScrollActivityView?
     
+    @IBOutlet weak var whiteView: UIView!
     @IBOutlet weak var profPicImageView: UIImageView!
     @IBOutlet weak var yourTableView: UITableView!
    
     @IBOutlet weak var makeProfPic: UIButton!
     var counter = 0
-    var rows = 0
+    var rows = 20
     var numPosts = 0
     
     @IBAction func dismissProfPic(sender: AnyObject) {
         self.profPicImageView.hidden = true
         self.makeProfPic.hidden = true
+        self.whiteView.hidden = true
+        Post.postUserImage(profPicImageView.image, withCaption: "\(PFUser.currentUser()?.username as String!) changed their profile picture.", withCompletion: nil)
+        
     }
     
     @IBAction func setProfPic(sender: AnyObject) {
@@ -59,9 +63,10 @@ class yourPostsViewController: UIViewController, UITableViewDataSource, UITableV
         
         //completion goes to the next block of code to be executed
         
-        print ("got the pic")
+        //print ("got the pic")
         profPicImageView.image = originalImage
         self.profPicImageView.hidden = false
+        self.whiteView.hidden = false
         self.makeProfPic.hidden = false
         
         // Dismiss UIImagePickerController to go back to your original view controller
@@ -103,6 +108,7 @@ class yourPostsViewController: UIViewController, UITableViewDataSource, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         yourTableView.delegate = self
+        self.whiteView.hidden = true
         self.makeProfPic.hidden = true
         self.profPicImageView.hidden = true
         yourTableView.dataSource = self
@@ -164,6 +170,10 @@ class yourPostsViewController: UIViewController, UITableViewDataSource, UITableV
                 //print ("1.\(PFUser.currentUser()?.username as String!)")
                 //print ("2.\(post["username"])")
                 if "\(post["username"])" == "\(PFUser.currentUser()?.username as String!)" {
+                    let time = post.createdAt!
+                    let formatter = NSDateFormatter()
+                    formatter.dateFormat = "MMM dd, H:mm a"
+                cell.timeLabel.text = "\(formatter.stringFromDate(time))"
                 self.numPosts += 1
                 cell.capLabel.text = post["caption"] as? String
                 //cell.recapLabel.text = post["caption"] as? String

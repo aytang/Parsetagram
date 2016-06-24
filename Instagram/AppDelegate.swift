@@ -34,6 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window = UIWindow(frame: UIScreen.mainScreen().bounds)
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let initViewController: UIViewController = storyboard.instantiateViewControllerWithIdentifier("MainViewController") as! MainViewController
+            initViewController.hidesBottomBarWhenPushed = false
             self.window?.rootViewController = initViewController
             
         }

@@ -16,6 +16,8 @@ class yourTableViewCell: UITableViewCell {
     @IBOutlet weak var picImageView: UIImageView!
   
     
+    @IBOutlet weak var timeLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

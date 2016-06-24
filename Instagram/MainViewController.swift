@@ -16,7 +16,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     //let CellIdentifier = "postTableViewCell", HeaderViewIdentifier = "postTableViewHeaderView"
     @IBOutlet weak var tableView: UITableView!
     var counter = 0
-    var rows = 5
+    var rows = 20
     @IBAction func isLogOff(sender: AnyObject) {
         PFUser.logOutInBackgroundWithBlock{(error: NSError?) in
             print ("You are logged off.")
@@ -108,12 +108,16 @@ func refreshControlAction(refreshControl: UIRefreshControl) {
         query.findObjectsInBackgroundWithBlock { (posts: [PFObject]?, error: NSError?) -> Void in
             if let posts = posts {
                 let post = posts[indexPath.row]
+                cell.userLabel.text = post["username"] as? String
+                let time = post.createdAt!
+                let formatter = NSDateFormatter()
+                formatter.dateFormat = "MMM dd, H:mm a"
                 cell.captionLabel.text = post["caption"] as? String
                 cell.recapLabel.text = post["caption"] as? String
-                cell.timeLabel.text = "Time posted:\(post.createdAt!)"
+                cell.timeLabel.text = "Time posted:\(formatter.stringFromDate(time))"
                 cell.likesLabel.text = "Likes: \(cell.likes)"
-                cell.userLabel.text = post["username"] as? String
-                cell.createdLabel.text = "\(post.createdAt!)"
+                cell.createdLabel.text = "\(formatter.stringFromDate(time))"
+                //cell.createdLabel.text = "\(post.createdAt!)"
                 post["media"].getDataInBackgroundWithBlock {(imageData: NSData?, error: NSError?) -> Void in
                     if error == nil {
                         if let imageData = imageData {
@@ -141,6 +145,22 @@ func refreshControlAction(refreshControl: UIRefreshControl) {
  */
                 return rows
         }
+    /*
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let cell = sender as! UITableViewCell
+        let indexPath = tableView.indexPathForCell(cell)
+        let query = PFQuery(className: "Post")
+        query.orderByDescending("createdAt")
+        query.findObjectsInBackgroundWithBlock { (posts: [PFObject]?, error: NSError?) -> Void in
+            if let posts = posts {
+         let post = posts[indexPath!.row]
+        let detailViewController = segue.destinationViewController as! detailViewController
+        detailViewController.post = post
+            }}
+        print ("prepare for segue called")
+ 
+    }
+ */
 /*
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(HeaderViewIdentifier)! as UITableViewHeaderFooterView

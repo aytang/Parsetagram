@@ -18,20 +18,34 @@ class CaptureViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-   
-    }
-  
-    @IBAction func toUpload(sender: AnyObject) {
-        let vc = UIImagePickerController()
         vc.delegate = self
         vc.allowsEditing = true
-    
-        //vc.sourceType = UIImagePickerControllerSourceType.Camera
+        
+   
+    }
+    let vc = UIImagePickerController()
+ 
+  
+    @IBAction func toUpload(sender: AnyObject) {
+        //vc.sourceType = UIImageP  ickerControllerSourceType.Camera
         vc.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
         self.presentViewController(vc, animated: true, completion: nil)
 
         
     }
+    
+    @IBAction func toCamera(sender: AnyObject) {
+        //let vc = UIImagePickerController()
+        //vc.delegate = self
+        //vc.allowsEditing = true
+        
+        vc.sourceType = UIImagePickerControllerSourceType.Camera
+        //vc.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        self.presentViewController(vc, animated: true, completion: nil)
+        
+    }
+    
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
